@@ -40,3 +40,28 @@ a {
     color-scheme: dark;
   }
 }
+
+/* Soft page background */
+body {
+  background-color: #f5f7fa;
+}
+
+/* Hero header like the sample */
+.hero-search {
+  background-color: #f8fbff;
+}
+
+/* Gradient search button */
+.btn-gradient {
+  background: linear-gradient(90deg, #0194ff, #0077d9);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.btn-gradient:hover,
+.btn-gradient:focus {
+  background: linear-gradient(90deg, #0077d9, #005fa8);
+  color: #fff;
+}

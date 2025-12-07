@@ -65,3 +65,20 @@ body {
   background: linear-gradient(90deg, #0077d9, #005fa8);
   color: #fff;
 }
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+label,
+input,
+button,
+a,
+span,
+div {
+  color: #000 !important;
+}

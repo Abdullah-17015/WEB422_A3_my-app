@@ -5,22 +5,28 @@
  *  Date: (set date)
  *********************************************************************************/
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { useRouter } from "next/router";
-import { readToken, removeToken } from "@/lib/authenticate";
+import { isAuthenticated, readToken, removeToken } from "@/lib/authenticate";
+
 
 export default function MainNav() {
     const router = useRouter();
 
-    // get the decoded token (if present)
-    let token;
-    if (typeof window !== "undefined") {
-        token = readToken(); // { userName: "...", ... } or null
-    }
+    const [mounted, setMounted] = useState(false);
+    const [token, setToken] = useState(null);
+
+    useEffect(() => {
+        setMounted(true);
+        const t = readToken();
+        setToken(t);
+    }, []);
 
     function logout() {
         removeToken();
+        setToken(null);
         router.push("/login");
     }
 
@@ -28,34 +34,32 @@ export default function MainNav() {
         <Navbar bg="light" expand="lg" className="mb-4">
             <Container>
                 <Navbar.Brand as={Link} href="/">
-                    Books App {token && <> – Welcome {token.userName}</>}
+                    { }
+                    Abdullah Hussain{" "}
+                    {mounted && token && (
+                        <>
+                            – Welcome {token.userName}
+                        </>
+                    )}
                 </Navbar.Brand>
 
                 <Navbar.Toggle aria-controls="main-navbar" />
                 <Navbar.Collapse id="main-navbar">
                     <Nav className="me-auto">
-                        <Nav.Link as={Link} href="/">
-                            Home
+                        <Nav.Link as={Link} href="/about">
+                            About
                         </Nav.Link>
-
                         <Nav.Link as={Link} href="/search">
                             Search
                         </Nav.Link>
+                        <Nav.Link as={Link} href="/favourites">
+                            Favourites
+                        </Nav.Link>
 
-                        {token && (
-                            <>
-                                <Nav.Link as={Link} href="/favourites">
-                                    Favourites
-                                </Nav.Link>
-                                <Nav.Link as={Link} href="/history">
-                                    History
-                                </Nav.Link>
-                            </>
-                        )}
                     </Nav>
 
-                    <Nav className="ms-auto">
-                        {!token && (
+                    <Nav>
+                        {!mounted || !token ? (
                             <>
                                 <Nav.Link as={Link} href="/login">
                                     Login
@@ -64,12 +68,8 @@ export default function MainNav() {
                                     Register
                                 </Nav.Link>
                             </>
-                        )}
-
-                        {token && (
-                            <Nav.Link onClick={logout}>
-                                Logout
-                            </Nav.Link>
+                        ) : (
+                            <Nav.Link onClick={logout}>Logout</Nav.Link>
                         )}
                     </Nav>
                 </Navbar.Collapse>

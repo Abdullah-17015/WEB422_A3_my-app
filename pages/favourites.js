@@ -1,29 +1,37 @@
+/*********************************************************************************
+ *  WEB422 – Assignment 3
+ *  Name: Abdullah Hussain
+ *  Student ID: 118095225
+ *  Date: 10th November 2025
+ *********************************************************************************/
+
 import { useAtom } from "jotai";
 import { favouritesAtom } from "@/store";
 import PageHeader from "@/components/PageHeader";
-import { Row, Col } from "react-bootstrap";
-import BookCard from "@/components/BookCard";
+import Link from "next/link";
+import { ListGroup } from "react-bootstrap";
 
 export default function Favourites() {
     const [favouritesList] = useAtom(favouritesAtom);
 
-    if (favouritesList.length === 0) {
-        return (
-            <PageHeader text="Nothing Here" subtext="Try adding some favourites." />
-        );
-    }
+    if (!favouritesList) return null;
 
     return (
         <>
-            <PageHeader text="Favourites" subtext="Your saved books" />
+            <PageHeader text="Favourites" />
 
-            <Row className="gy-4">
-                {favouritesList.map(workId => (
-                    <Col key={workId} lg={3} md={4} sm={6}>
-                        <BookCard workId={workId} />
-                    </Col>
-                ))}
-            </Row>
+            {favouritesList.length === 0 ? (
+                <p>Nothing here.</p>
+            ) : (
+                <ListGroup>
+                    {favouritesList.map((id) => (
+                        <ListGroup.Item key={id}>
+                            {/* Simple: show the workId as a link to details page */}
+                            <Link href={`/works/${id}`}>{id}</Link>
+                        </ListGroup.Item>
+                    ))}
+                </ListGroup>
+            )}
         </>
     );
 }

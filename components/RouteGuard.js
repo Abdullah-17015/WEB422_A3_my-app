@@ -1,40 +1,46 @@
-/*********************************************************************************
- *  WEB422 – Assignment 3
- *  Name: Abdullah Hussain
- *  Student ID: 118095225
- *  Date: (set date)
- *********************************************************************************/
-
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-import { isAuthenticated } from "@/lib/authenticate";
+import { useEffect, useState } from "react";
+import { useAtom } from "jotai";
+import { favouritesAtom } from "@/store";
 
-// PUBLIC (no login required)
-const PUBLIC_PATHS = ["/", "/about", "/search", "/login", "/register", "/_error"];
+import { isAuthenticated } from "@/lib/authenticate";
+import { getFavourites } from "@/lib/userData";
+
+const PUBLIC_PATHS = ["/login", "/register", "/about", "/_error"];
 
 export default function RouteGuard(props) {
     const router = useRouter();
     const [authorized, setAuthorized] = useState(false);
+    const [, setFavouritesList] = useAtom(favouritesAtom);
+
+    async function updateAtom() {
+        try {
+            const favs = await getFavourites();
+            setFavouritesList(favs);
+        } catch (err) {
+            setFavouritesList([]);
+        }
+    }
 
     useEffect(() => {
-        // initial check on first load
-        authCheck(router.asPath);
+        authCheck(router.pathname);
+        updateAtom();
 
-        // run on every route change
-        const handleRouteChange = (url) => authCheck(url);
-        router.events.on("routeChangeComplete", handleRouteChange);
+        const hideContent = () => setAuthorized(false);
+        const showContent = (url) => authCheck(url);
 
-        // cleanup
+        router.events.on("routeChangeStart", hideContent);
+        router.events.on("routeChangeComplete", showContent);
+
         return () => {
-            router.events.off("routeChangeComplete", handleRouteChange);
+            router.events.off("routeChangeStart", hideContent);
+            router.events.off("routeChangeComplete", showContent);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function authCheck(url) {
-        const path = url.split("?")[0]; // remove query string
+        const path = url.split("?")[0];
 
-        // not logged in & going to a non-public path → send to /login
         if (!isAuthenticated() && !PUBLIC_PATHS.includes(path)) {
             setAuthorized(false);
             router.push("/login");
@@ -43,6 +49,5 @@ export default function RouteGuard(props) {
         }
     }
 
-    // only render children when authorized
     return <>{authorized && props.children}</>;
 }

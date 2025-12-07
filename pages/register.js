@@ -1,97 +1,72 @@
-/*********************************************************************************
- *  WEB422 – Assignment 3
- *  Name: Abdullah Hussain
- *  Student ID: 118095225
- *  Date: 10th November 2025
- *********************************************************************************/
-
 import { useState } from "react";
 import { useRouter } from "next/router";
-import PageHeader from "@/components/PageHeader";
-import { Card, Form, Button, Alert } from "react-bootstrap";
 import { registerUser } from "@/lib/authenticate";
+import PageHeader from "@/components/PageHeader";
+import { Form, Button, Alert } from "react-bootstrap";
 
 export default function Register() {
+    const router = useRouter();
+
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
-    const [warning, setWarning] = useState("");
-
-    const router = useRouter();
+    const [warning, setWarning] = useState(null);
 
     async function handleSubmit(e) {
         e.preventDefault();
-        setWarning("");
+        setWarning(null);
 
         try {
-            // call our API helper
             await registerUser(userName, password, password2);
-
-            // if successful, send the user to the login page
             router.push("/login");
         } catch (err) {
-            // show error from API
-            setWarning(err.message || String(err));
+            setWarning(err.message || "Registration failed");
         }
     }
 
     return (
         <>
-            {/* single page header */}
             <PageHeader text="Register" />
+            <h4>Register for an account:</h4>
+            <br />
 
-            <Card>
-                <Card.Body>
-                    <Card.Title>Create your account</Card.Title>
-                    <Card.Text>Enter your information below:</Card.Text>
+            {warning && <Alert variant="danger">{warning}</Alert>}
 
-                    {warning && (
-                        <>
-                            <br />
-                            <Alert variant="danger">{warning}</Alert>
-                        </>
-                    )}
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="userName">
+                    <Form.Label>User Name</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                        required
+                    />
+                </Form.Group>
 
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3">
-                            <Form.Label>User:</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="userName"
-                                value={userName}
-                                onChange={(e) => setUserName(e.target.value)}
-                                required
-                            />
-                        </Form.Group>
+                <Form.Group className="mb-3" controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </Form.Group>
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Password:</Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                        </Form.Group>
+                <Form.Group className="mb-3" controlId="password2">
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        value={password2}
+                        onChange={(e) => setPassword2(e.target.value)}
+                        required
+                    />
+                </Form.Group>
 
-                        <Form.Group className="mb-3">
-                            <Form.Label>Confirm Password:</Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="password2"
-                                value={password2}
-                                onChange={(e) => setPassword2(e.target.value)}
-                                required
-                            />
-                        </Form.Group>
-
-                        <Button variant="primary" type="submit">
-                            Register
-                        </Button>
-                    </Form>
-                </Card.Body>
-            </Card>
+                <Button variant="primary" type="submit">
+                    Register
+                </Button>
+            </Form>
         </>
     );
 }

@@ -1,16 +1,17 @@
-/********************************************************************************
-*  WEB422 – Assignment 02
-* 
+/*********************************************************************************
+*  WEB422 – Assignment 3
+*
 *  I declare that this assignment is my own work in accordance with Seneca's
 *  Academic Integrity Policy:
 * 
 *  https://www.senecapolytechnic.ca/about/policies/academic-integrity-policy.html
 * 
-*  Name: Abdullah Hussain Student ID: 119895225 Date: 10th November 2025
+*  Name: Abdullah Hussain Student ID: 119895225 Date: 5 December 2025
 *
-* 
+*  Vercel App (Deployed) Link: _____________________________________________________
 *
-********************************************************************************/import { useForm } from "react-hook-form";
+********************************************************************************/
+import { useForm } from "react-hook-form";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useRouter } from "next/router";
 

@@ -11,7 +11,7 @@ export default function Books() {
   const [page, setPage] = useState(1);
   const [pageData, setPageData] = useState([]);
 
-  // Build query string from search form values
+
   const queryString = new URLSearchParams(router.query).toString();
 
   const { data, error, isLoading } = useSWR(
@@ -29,7 +29,7 @@ export default function Books() {
     }
   }, [data]);
 
-  // Nice subtext showing what was searched
+
   const subtext =
     Object.keys(router.query).length > 0
       ? Object.entries(router.query)
@@ -63,7 +63,7 @@ export default function Books() {
                 <tr
                   key={`${book.key}-${idx}`}
                   style={{ cursor: "pointer" }}
-                  onClick={() => router.push(book.key)} // book.key is like /works/OL...
+                  onClick={() => router.push(book.key)}
                 >
                   <td>{book.title || "Untitled"}</td>
                   <td>

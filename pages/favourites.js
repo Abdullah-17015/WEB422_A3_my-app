@@ -1,10 +1,3 @@
-/*********************************************************************************
- *  WEB422 – Assignment 3
- *  Name: Abdullah Hussain
- *  Student ID: 118095225
- *  Date: 10th November 2025
- *********************************************************************************/
-
 import { useAtom } from "jotai";
 import { favouritesAtom } from "@/store";
 import PageHeader from "@/components/PageHeader";
@@ -26,7 +19,7 @@ export default function Favourites() {
                 <ListGroup>
                     {favouritesList.map((id) => (
                         <ListGroup.Item key={id}>
-                            {/* Simple: show the workId as a link to details page */}
+                            { }
                             <Link href={`/works/${id}`}>{id}</Link>
                         </ListGroup.Item>
                     ))}

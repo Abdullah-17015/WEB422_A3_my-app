@@ -8,25 +8,25 @@ import { Button, Container, Row, Col } from "react-bootstrap";
 export default function BookDetails({ book, workId, showFavouriteBtn = true }) {
     const [favouritesList, setFavouritesList] = useAtom(favouritesAtom);
 
-    // Default to false (assignment instruction)
+
     const [showAdded, setShowAdded] = useState(false);
 
-    // Keep showAdded in sync with favourites list from API
+
     useEffect(() => {
         if (favouritesList && workId) {
             setShowAdded(favouritesList.includes(workId));
         }
     }, [favouritesList, workId]);
 
-    // Make this async and use the API
+
     async function favouritesClicked() {
         try {
             if (showAdded) {
-                // It IS in favourites: remove it using API
+
                 const updated = await removeFromFavourites(workId);
                 setFavouritesList(updated);
             } else {
-                // It is NOT in favourites: add it using API
+
                 const updated = await addToFavourites(workId);
                 setFavouritesList(updated);
             }

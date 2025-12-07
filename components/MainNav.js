@@ -1,10 +1,3 @@
-/*********************************************************************************
- *  WEB422 – Assignment 3
- *  Name: Abdullah Hussain
- *  Student ID: 118095225
- *  Date: (set date)
- *********************************************************************************/
-
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Navbar, Nav, Container } from "react-bootstrap";

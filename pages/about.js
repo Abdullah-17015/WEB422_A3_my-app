@@ -27,7 +27,7 @@ export default function About({ book }) {
                 confident in working with tools like React, Next.js, Express, and various
                 cloud services, and I enjoy the challenge of breaking down complex problems
                 into smaller, manageable components. Beyond the technical side, I am
-                passionate about continuous improvement whether it’s refining my code,
+                passionate about continuous improvement whether its refining my code,
                 learning a new library, or understanding best practices that make
                 applications more efficient and scalable. Each assignment provides an
                 opportunity to grow, experiment, and move one step closer to becoming a

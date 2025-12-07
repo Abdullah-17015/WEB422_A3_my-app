@@ -18,14 +18,14 @@ export default function Login() {
         setWarning("");
 
         try {
-            // authenticateUser(userName, password) from lib/authenticate.js
+
             await authenticateUser(user, password);
 
 
             const from = router.query.from || "/favourites";
             router.push(from);
         } catch (err) {
-            // Show error message from authenticateUser
+
             setWarning(err.message || "Unable to login");
         }
     }
